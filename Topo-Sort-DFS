@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void topo(int i,vector<int> &vis, vector<int> ad[], stack<int> &s)
+{
+    vis[i] =1;
+  
+    for(auto it: ad[i])
+    {
+        if(!vis[it])
+        {
+            topo(it, vis,ad,s);
+        }
+    }  s.push(i);
+
+    return ;
+}
+
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<int> ad[n+1];
+    for(int i=0;i<m;i++)
+    {
+      int x,y;
+      cin>>x>>y;
+      ad[x].push_back(y);
+    }
+    vector<int> vis(n+1,0);
+    stack<int> s;
+    for(int i=0;i<n;i++)
+    {
+        if(!vis[i])
+        {
+            topo(i,vis,ad,s);
+        }
+    }
+
+    vector<int> ans;
+    while(!s.empty())
+    {
+        ans.push_back(s.top());
+        s.pop();
+    }
+    for(auto i: ans)
+    {
+        cout<<i<<" ";
+    }
+    return 0;
+}
