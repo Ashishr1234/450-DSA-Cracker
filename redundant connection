@@ -1,0 +1,40 @@
+ int find(int u, vector<int> &par)
+    {
+        if(u == par[u]) return u;
+        
+        return par[u] = find(par[u],par);
+    }
+    void uni(int u, int v, vector<int> &par, vector<int> &rank)
+    {
+        u = find(u,par);
+        v = find(v,par);
+        
+        if(rank[v] < rank[u]) par[v] = u;
+        else if(rank[v] > rank[u]) par[u] = v;
+        else{
+            par[u] = v;
+            rank[u]++;
+        }
+    }
+    vector<int> findRedundantConnection(vector<vector<int>>& ed) {
+        int n = ed.size();
+        vector<int> par(n+1);
+        vector<int> rank(n+1);
+        vector<int> ans;
+        for(int i=0;i<=n;i++)
+        {
+            par[i] = i;
+            rank[i] = 0;
+        }
+        
+       for(auto i: ed)
+       {
+           if(find(i[0],par) != find(i[1],par)){
+               uni(i[0],i[1],par,rank);
+           }
+           else ans = i;
+       }
+        
+        return ans;
+        
+    }
