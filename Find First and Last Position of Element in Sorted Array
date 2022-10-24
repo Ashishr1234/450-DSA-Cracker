@@ -1,0 +1,12 @@
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& n, int t) {
+        int lb= lower_bound(n.begin(),n.end(),t)-n.begin();
+
+int ub= upper_bound(n.begin(),n.end(),t)-n.begin();
+
+if(ub==lb) return {-1,-1};
+
+else return {lb,ub-1};
+    }
+};
