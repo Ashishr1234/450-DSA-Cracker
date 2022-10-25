@@ -1,0 +1,55 @@
+class Solution {
+    private:
+void merge_sort(vector<int>& nums,int first_index,int last_index)
+{
+    int middle_index;
+    if(first_index<last_index)
+    {
+        middle_index=(last_index+first_index)/2;
+        merge_sort(nums,first_index,middle_index);
+        merge_sort(nums,middle_index+1,last_index);
+        merge(nums,first_index,middle_index,last_index);
+    }
+}
+    void merge(vector<int>& nums,int first_index,int middle_index,int last_index){
+        int left[middle_index-first_index+1],right[last_index-middle_index];
+        int i,j,k;
+        for(i=0;i<middle_index-first_index+1;i++)
+        {
+            left[i]=nums[first_index+i];
+        }
+        for(j=0;j<last_index-middle_index;j++)
+        {
+            right[j]=nums[middle_index+1+j];
+        }
+        for(i=0,j=0,k=first_index;i<middle_index-first_index+1&&j<last_index-middle_index;k++)
+        {
+            if(left[i]>right[j]){
+                nums[k]=right[j];
+                j++;
+            }
+            else{
+                nums[k]=left[i];
+                i++;
+            }
+        }
+        while(i<middle_index-first_index+1){
+            nums[k]=left[i];
+            i++;
+            k++;
+        }
+        while(j<last_index-middle_index)
+        {
+            nums[k]=right[j];
+            j++;
+            k++;
+        }
+    }
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int n=nums.size();
+        merge_sort(nums,0,n-1);
+        return nums;
+        
+    }
+};
