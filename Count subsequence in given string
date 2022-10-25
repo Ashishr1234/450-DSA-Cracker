@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int countWays(string S1, string S2)
+{
+	int m = S1.size(), n = S2.size();
+	vector<int> count(n, 0);
+
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = n - 1; j >= 0; j--) 
+		{
+			if (S1[i] == S2[j])
+			{
+				
+				count[j] += (j == 0 ? 1 : count[j - 1]);
+			}
+		}
+	}
+
+	return count[n - 1];
+}
+
+int main()
+{
+	string S1 = "TimisPlayingTimwithTim", S2 = "Tim";
+	cout << countWays(S1, S2) << "\n";
+	return 0;
+}
