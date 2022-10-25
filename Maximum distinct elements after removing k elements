@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int MaxNumber(int arr[], int N, int K)
+{
+	unordered_map<int, int> mp;
+	for (int i = 0; i < N; i++) {
+		mp[arr[i]]++;
+	}
+
+	vector<int> v1;
+	for (auto i : mp) {
+		v1.push_back(i.second);
+	}
+
+	int temp = 0;
+	for (int i = 0; i < v1.size(); i++) {
+		temp += v1[i] - 1;
+	}
+
+	if (K <= temp) {
+		return v1.size();
+	}
+	else {
+		K = K - temp;
+		int ans = v1.size();
+		while (K) {
+			ans--;
+			K--;
+		}
+		return ans;
+	}
+}
+int main()
+{
+	int arr[] = { 10, 10, 10, 50, 50 };
+	int K = 3;
+
+	int N = sizeof(arr) / sizeof(arr[0]);
+	cout << MaxNumber(arr, N, K) << endl;
+	return 0;
+}
