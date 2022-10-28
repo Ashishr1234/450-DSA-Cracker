@@ -1,0 +1,28 @@
+     void solve(Node*root,vector<int>&ans){
+        if(root==NULL){
+            return;
+        }
+        solve(root->left,ans);
+        ans.push_back(root->data);
+        solve(root->right,ans);
+    }
+    Node*adi(int s,int e,vector<int>&ans){
+        if(s>e)
+        {
+            return NULL;
+        }
+        int mid=(s+e)/2;
+        Node*t=new Node(ans[mid]);
+        t->left=adi(s,mid-1,ans);
+        t->right=adi(mid+1,e,ans);
+        return t;
+        
+    }
+Node* buildBalancedTree(Node* root)
+{
+	// Code here
+	vector<int>ans;
+	solve(root,ans);
+	return adi(0,ans.size()-1,ans);
+	
+}
