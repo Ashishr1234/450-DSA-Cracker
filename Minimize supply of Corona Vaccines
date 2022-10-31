@@ -1,0 +1,100 @@
+// C++ code to implement the approach
+#include <bits/stdc++.h>
+using namespace std;
+
+// Structure of a tree node
+struct Node {
+	int data;
+	Node* left;
+	Node* right;
+
+	Node(int val)
+	{
+		data = val;
+		left = right = NULL;
+	}
+};
+
+// Function to implement the dp
+int solve(int& ans, Node* root, Node* parent,
+		unordered_map<Node*, int>& dp)
+{
+	// Base Condition
+	if (root == 0)
+		return 0;
+
+	// Counter Variable to store the number
+	// of unvisited child elements for
+	// the current node
+	int cnt = solve(ans, root->left, root, dp);
+	cnt += solve(ans, root->right, root, dp);
+
+	// If there are no unvisited child nodes
+	if (cnt == 0) {
+		
+		// If the current node is root
+		// node and unvisited increment
+		// the answer by 1
+		if (dp[root] == 0 && parent == 0) {
+			ans++;
+			return 1;
+		}
+		// If the current node is unvisited
+		// but it is not the root node
+		if (dp[root] == 0)
+			return 1;
+
+		// If the current node is also visited
+		return 0;
+	}
+
+	// If there are unvisited child nodes
+	else {
+		// Mark the current node,
+		// parent node and child
+		// nodes as visited
+		if (root->left != 0)
+			dp[root->left] = 1;
+		if (root->right != 0)
+			dp[root->right] = 1;
+		dp[root] = 1;
+		if (parent != 0)
+			dp[parent] = 1;
+
+		// Increment the answer by 1
+		ans++;
+
+		// Return 0 as now we have marked
+		// all nodes as visited
+		return 0;
+	}
+}
+
+// Function to find required vaccines
+int supplyVaccine(Node* root)
+{
+	unordered_map<Node*, int> dp;
+	int ans = 0;
+
+	// Passing parent of root
+	// node as NULL to identify it
+	solve(ans, root, 0, dp);
+	return ans;
+}
+
+// Driver Code
+int main()
+{
+	string treeString;
+	Node* root = new Node(1);
+	root->left = new Node(2);
+	root->right = new Node(3);
+	root->right->right = new Node(4);
+	root->right->right->right = new Node(5);
+	root->right->right->right->right
+		= new Node(6);
+	
+	// Function call
+	cout << supplyVaccine(root) << "\n";
+	return 0;
+}
